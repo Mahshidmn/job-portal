@@ -5,7 +5,7 @@ class Applicant(models.Model):
     name = models.CharField(max_length=256)
     title = models.CharField(max_length=256)
     email = models.CharField(max_length=256)
-    contactnumber = models.IntegerField(max_length=100)
+    contactnumber = models.IntegerField()
     address = models.CharField(max_length=256)
     summary = models.CharField(max_length=1024)
     skillset = models.CharField(max_length=1024)
@@ -22,4 +22,4 @@ class Applicant(models.Model):
 #     applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE)
 
 #     def __str__(self):
-#         return f"Photo for applicant_id: {self.applicant_id} @{self.url}"
+#         return f"Photo for applicant_id: {self.applicant_id} @{self.url}"dr
