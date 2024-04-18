@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mx-auto mt-10 px-4 py-8 bg-white shadow-lg rounded-lg">
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Delete Applicant</h1>
+
+    <h2 class="text-m text-gray-700 mb-6">
+        Are you sure you want to delete <span class="font-semibold">{{ object.name }}</span>?
+    </h2>
+
+    <!-- Submitting the form will send a POST request on the same page because action is left empty -->
+    <form action="" method="post" class="space-x-4">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Yes
+        </button>
+        <a href="{% url 'detail' applicant.id %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded transition duration-300">
+            No
+        </a>
+    </form>
+</div>
+{% endblock %}

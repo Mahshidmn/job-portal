@@ -53,7 +53,7 @@ class WorkExperience(models.Model):
     job_title = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)  # Allows for current employment
-    description = models.TextField()
+    
 
     def __str__(self):
         return f'{self.job_title} at {self.company}'
@@ -77,7 +77,6 @@ class Certification(models.Model):
     name = models.CharField(max_length=255)
     issuing_organization = models.CharField(max_length=255)
     date_awarded = models.DateField()
-    expiration_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} from {self.issuing_organization}'

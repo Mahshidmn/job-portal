@@ -10,7 +10,7 @@ from .models import Applicant, Photo, Resume
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import SkillSetForm
+from .forms import SkillSetForm, WorkExperienceForm, EducationForm, CertificationForm
 
 
 
@@ -28,9 +28,15 @@ class ApplicantList(ListView):
 def applicants_detail(request, applicant_id):
    applicant = Applicant.objects.get(id=applicant_id)
    skillset_form = SkillSetForm()
+   workexperience_form = WorkExperienceForm()
+   education_form = EducationForm()
+   certification_form = CertificationForm()
    return render(request, 'main_app/applicant_detail.html', {
       'applicant': applicant, 
       'skillset_form': skillset_form,
+      'workexperience_form': workexperience_form,
+      'education_form': education_form,
+      'certification_form': certification_form,
    })
 
 class ApplicantCreate(CreateView):
@@ -44,6 +50,15 @@ class ApplicantCreate(CreateView):
       #do its regular work which is saving the model in DB & redirect
         return super().form_valid(form)
     
+class ApplicantUpdate(UpdateView):
+   model = Applicant
+   fields = ['name', 'title', 'email', 'phone_number', 'location', 'summary', 'linkedin_profile_url', 'portfolio_url', 'availability']
+
+   
+class ApplicantDelete(DeleteView):
+   model = Applicant
+   success_url = '/applicants/'
+    
 ######## Skillset CRUD ###########
 
 def add_skillset(request, applicant_id):
@@ -53,7 +68,39 @@ def add_skillset(request, applicant_id):
       new_skillset.applicant_id = applicant_id
       new_skillset.save()
    return redirect('detail', applicant_id=applicant_id)
+
+
+########## Work Experience CRUD ##############
+
+def add_workexperience(request, applicant_id):
+   workexperience_form = WorkExperienceForm(request.POST)
+   if workexperience_form.is_valid():
+      new_workexperience = workexperience_form.save(commit=False)
+      new_workexperience.applicant_id = applicant_id
+      new_workexperience.save()
+   return redirect('detail', applicant_id=applicant_id)
       
+
+########## Education CRUD ##############
+
+def add_education(request, applicant_id):
+   education_form = EducationForm(request.POST)
+   if education_form.is_valid():
+      new_education = education_form.save(commit=False)
+      new_education.applicant_id = applicant_id
+      new_education.save()
+   return redirect('detail', applicant_id=applicant_id)
+
+
+########## Certification CRUD ##############
+
+def add_certification(request, applicant_id):
+   certification_form = CertificationForm(request.POST)
+   if certification_form.is_valid():
+      new_certification = certification_form.save(commit=False)
+      new_certification.applicant_id = applicant_id
+      new_certification.save()
+   return redirect('detail', applicant_id=applicant_id)
 
     
 ######## Photo CRUD ###########
