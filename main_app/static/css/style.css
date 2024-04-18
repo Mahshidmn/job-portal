@@ -8,7 +8,9 @@ body {
     flex: 1 0 auto;
   }
   
-  footer.page-footer {
-    padding-top: 0;
-    text-align: center;
-  }
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0;
+}

@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="ml-8 mt-8 font-bold">Applicant Profile</h1>
+
+
+<div class="ml-8 mt-8 mb-8 inline-block flex justify-start gap-x-4">
+    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow pb-8 mb-12">
+        <div class="flex justify-end px-4 pt-4">
+            <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
+                <span class="sr-only">Open dropdown</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                <ul class="py-2" aria-labelledby="dropdownButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex flex-col items-center pb-10">
+            {% for photo in applicant.photo_set.all %}
+               <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ photo.url }}" alt="{{ applicant.name }} image"/>       
+            {% empty %}
+               <div class="text-center text-gray-700 py-3">No Photos Uploaded</div>
+            {% endfor %}
+                   <form action="{% url 'add_photo' applicant.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col items-center w-full">
+                      {% csrf_token %}
+                      <input type="file" name="photo-file" class="cursor-pointer text-center text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                      <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">Upload Photo</button>
+                   </form>
+
+            {% for resume in applicant.resume_set.all %}
+            {% empty %}
+                <div class="text-center text-gray-700 py-3">No Resume Uploaded</div>
+            {% endfor %}
+                   <form action="{% url 'add_resume' applicant.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col items-center w-full">
+                     {% csrf_token %}
+                      <input type="file" name="resume-file" class="cursor-pointer text-center text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                      <button type="submit" class="bg-pink-100 text-pink-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">Upload Resume</button>
+                   </form>
+                     <h5 class="mb-1 text-xl font-medium text-gray-900">{{ applicant.name }}</h5>
+                     <span class="text-sm text-gray-500">{{ applicant.title}}</span>
+                     <p class="mt-1 mb-1 text-center text-gray-700">{{ applicant.summary }}</p>
+                </div>
+                <div>
+                    <h2 class="font-bold inline-block mt-2 ml-4">Skillset:</h2>
+                    <div class="inline-flex flex-wrap">
+                        {% for skillset in applicant.skillset_set.all %}
+                            <div class="bg-gray-300 rounded-full px-3 py-1 text-sm text-gray-700 mr-2 mb-2">
+                                {{ skillset.get_skill_display }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form action="{% url 'add_skillset' applicant.id %}" method="post" class="mt-4 ml-4 flex items-center">
+                        {% csrf_token %}
+                        <div class="mb-0 mr-1 flex-grow">
+                            {{ skillset_form.as_p }}
+                        </div>
+                        <input type="submit" class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full" value="Add Skillset">
+                    </form>
+                </div>             
+        </div>
+        <div class="container columns-1 gap-1 flex flex-col">
+            <div class="w-full md:max-w-xl bg-white border border-gray-200 rounded-lg shadow flex mb-3 p-6">
+                <div class="flex-grow pr-4">
+                    <h5 class="ml-4 mt-4 mb-2 text-xl font-small text-gray-900">Applicant Info</h5> <!-- Reduced bottom margin -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                        <tbody class="bg-white">
+                            <tr>
+                                <!-- First Column -->
+                                <td class="py-3 px-6 font-bold">Location</td>
+                                <td class="py-3 px-6 text-gray-700">{{ applicant.location }}</td>
+                    
+                                <!-- Second Column -->
+                                <td class="py-3 px-6 font-bold">Email</td>
+                                <td class="py-3 px-6 text-gray-700">{{ applicant.email }}</td>
+                            </tr>
+                            <tr>
+                                <!-- First Column -->
+                                <td class="py-3 px-6 font-bold">Phone Number</td>
+                                <td class="py-3 px-6 text-gray-700">{{ applicant.phone_number }}</td>
+                    
+                                <!-- Second Column -->
+                                <td class="py-3 px-6 font-bold">LinkedIn Profile</td>
+                                <td class="py-3 px-6">
+                                    {% if applicant.linkedin_profile_url %}
+                                        <a href="{{ applicant.linkedin_profile_url }}" target="_blank" class="text-blue-500 hover:text-blue-700">
+                                            Visit LinkedIn
+                                        </a>
+                                    {% else %}
+                                        Not Provided
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- First Column -->
+                                <td class="py-3 px-6 font-bold">Availability</td>
+                                <td class="py-3 px-6 text-gray-700">{{ applicant.availability }}</td>
+                    
+                                <!-- Second Column -->
+                                <td class="py-3 px-6 font-bold">Portfolio</td>
+                                <td class="py-3 px-6">
+                                    {% if applicant.portfolio_url %}
+                                        <a href="{{ applicant.portfolio_url }}" target="_blank" class="text-blue-500 hover:text-blue-700">
+                                            Visit Portfolio
+                                        </a>
+                                    {% else %}
+                                        Not Provided
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- This row spans all columns if it's the only element in the row -->
+                                <td class="py-3 px-6 font-bold">Resume</td>
+                                <td class="py-3 px-6" colspan="3">
+                                    {% for resume in applicant.resume_set.all %}
+                                        <a href="{{ resume.url }}" download="{{ applicant.name }} Resume" class="text-blue-500 hover:text-blue-700 focus:text-blue-700 focus:underline">
+                                            Download Resume
+                                        </a>
+                                    {% empty %}
+                                        No Resume Uploaded
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                           </tbody>
+                      </table> 
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:max-w-xl bg-white border border-gray-200 rounded-lg shadow flex flex-col mb-4 p-4">
+                <div class="flex flex-grow pr-4">
+                    <button class="tab flex-1 text-gray-600 py-2 px-4 focus:outline-none" onclick="openTab(event, 'Work Experience')">Work Experience</button>
+                    <button class="tab flex-1 text-gray-600 py-2 px-4 focus:outline-none" onclick="openTab(event, 'Education')">Education</button>
+                    <button class="tab flex-1 text-gray-600 py-2 px-4 focus:outline-none" onclick="openTab(event, 'Certification')">Certification</button>
+                </div>
+                <div>
+                    <div id="Work Experience" class="tab-content hidden p-4">
+                        <p>This is the content for Option 1</p>
+                   </div>
+                   <div id="Education" class="tab-content hidden p-4">
+                       <p>This is the content for Option 2</p>
+                   </div>
+                   <div id="Certification" class="tab-content hidden p-4">
+                       <p>This is the content for Option 3</p>
+                   </div>
+                </div> 
+            </div>
+            
+            
+            <script>
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("tab-content");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tab");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].classList.remove("text-blue-500", "border-b-2", "border-blue-500");
+                        tablinks[i].classList.add("text-gray-600");
+                    }
+                    document.getElementById(tabName).style.display = "block";
+                    evt.currentTarget.classList.remove("text-gray-600");
+                    evt.currentTarget.classList.add("text-blue-500", "border-b-2", "border-blue-500");
+                }
+            </script>
+        </div>      
+    </div>    
+</div>
+{% endblock %}

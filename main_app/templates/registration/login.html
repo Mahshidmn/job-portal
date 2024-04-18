@@ -1,0 +1,15 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+
+<h1>Log In</h1>
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+     <!-- Django redirect to the same page user tried to access before login
+     when Django see the value = {{ next}} , next variable will be passed automatically   -->
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit" class="btn">Log In</button>
+</form>
+
+{% endblock %}

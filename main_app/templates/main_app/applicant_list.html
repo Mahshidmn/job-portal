@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="ml-8 mt-4 text-black bg-white p-2 font-bold">Applicants List</h1>
+
+{% for applicant in applicant_list %}
+<!-- 
+<a href="{% url 'detail' applicant.id %}" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"></a>
+<div class="card">
+    <div class="card-content">
+        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="" alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal card-detail">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-black">{{ applicant.name }}</h5>
+            <p class="mb-3 font-normal text-gray-700">Title: {{ applicant.title }}</p>
+            <p class="mb-3 font-normal text-gray-700">Email: {{ applicant.email }}</p>
+            <p class="mb-3 font-normal text-gray-700">Contact No: {{ applicant.contactnumber }}</p>
+            <p class="mb-3 font-normal text-gray-700">Address: {{ applicant.address }}</p>
+        </div>
+    </div>
+</div> -->
+
+<div class="ml-8 mt-4">
+    <a href="{% url 'detail' applicant.id %}" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100">
+        <!-- <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt=""> -->
+        <div class="flex flex-col justify-between p-4 leading-normal md:pr-1">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-black">{{ applicant.name }}</h5>
+            <p class="mb-3 font-normal text-gray-700">Title: {{ applicant.title }}</p>
+            <p class="mb-3 font-normal text-gray-700">Email: {{ applicant.email }}</p>
+            <p class="mb-3 font-normal text-gray-700">Contact No: {{ applicant.phone_number  }}</p>
+        </div>
+    </a>
+</div>
+
+
+
+{% endfor %}
+
+{% endblock %}

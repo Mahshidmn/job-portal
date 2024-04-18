@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    {% if object %}
+        <h1 class="text-left my-4 text-black bg-white py-2 font-bold">Edit Applicant <span class="teal-text">{{ object.name }}</span></h1>
+    {% else %}
+        <h1 class="text-left my-4 mb-2 text-black bg-white py-2 font-bold">Add Applicant</h1>  
+    {% endif %} 
+    
+    <!-- Form with POST method and CSRF token for security -->
+    <form method="POST" class="bg-white shadow-md rounded pb-8 my-8">
+        {% csrf_token %}
+        <table class="w-full max-w-lg mx-auto">
+            {% for field in form %}
+            <tr class="mb-4">
+                <td class="align-top">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                </td>
+                <td>
+                    {{ field|add_class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                    {% if field.help_text %}
+                        <p class="text-xs italic text-gray-600">{{ field.help_text }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="ml-8 mt-4 flex items-center justify-center">
+            {% if not object %}
+            <input type="submit" value="Create Applicant" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            {% else %}
+            <input type="submit" value="Update Applicant" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
+
