@@ -31,4 +31,20 @@
 {% endblock %}
 
 
- 
+Line 23 base.html:  <!-- <a href="{% url 'signup' %}">
+    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Up</button>   
+</a> -->
+
+<!-- Assuming you are iterating through jobs in Django template -->
+<a href="{% url 'apply_job' job.id %}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Apply now</a>
+<div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
+    <!-- Top section with logo and save icon -->
+    <div class="flex justify-between p-4">
+        <img class="h-12 w-12" src="{{ job.company.logo_url }}" alt="{{ job.company.name }} Logo">
+        <button type="button" class="text-gray-600 hover:text-gray-500">
+            <!-- Save icon goes here (e.g., a heart or bookmark icon) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <!-- SVG path for icon -->
+            </svg>
+        </button>
+    </div>

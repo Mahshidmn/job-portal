@@ -5,12 +5,12 @@
 {% block content %}
 <div class="container mx-auto px-4">
     {% if object %}
-        <h1 class="text-left my-4 text-black bg-white py-2 font-bold">Edit {{ object.name }} Profile </h1>
+        <h1 class="text-left my-4 text-black bg-white py-2 font-bold">Edit Job Listing </h1>
     {% else %}
-        <h1 class="text-left my-4 mb-2 text-black bg-white py-2 font-bold">Create Profile</h1>  
+        <h1 class="text-left my-4 mb-2 text-black bg-white py-2 font-bold">Create Job Listing</h1>  
     {% endif %} 
     
-    <!-- Form with POST method and CSRF token for security -->
+    
     <form method="POST" class="bg-white shadow-md rounded pb-8 my-8">
         {% csrf_token %}
         <table class="w-full max-w-lg mx-auto">
@@ -32,9 +32,9 @@
         </table>
         <div class="ml-8 mt-4 flex items-center justify-center">
             {% if not object %}
-            <input type="submit" value="Create Profile" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <input type="submit" value="Create Job Listing" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {% else %}
-            <input type="submit" value="Update Profile" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <input type="submit" value="Update Job Listing" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {% endif %}
         </div>
     </form>

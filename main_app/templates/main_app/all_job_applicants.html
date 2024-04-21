@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mb-12 mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">All Applicants</h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-8">Applicants for {{ job.job_title }}</h1>
 
-    {% if applicants %}
+    {% if job_applications %}
     <div class="grid md:grid-cols-3 gap-6">
-        {% for applicant in applicants %}
+        {% for job_application in job_applications %}
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <div class="bg-gray-300 p-4 flex items-center justify-between">
                 <div class="flex items-center">
                     <img class="h-12 w-12 rounded-full object-cover mr-4" src="{{ applicant.applicant.photo.url|default:'url_to_default_image.jpg' }}" alt="Profile of {{ applicant.applicant.name }}">
                     <div>
-                        <h5 class="font-bold">{{ applicant.name }}</h5>
-                        <p class="text-sm">{{ applicant.title }}</p>
+                        <h5 class="font-bold">{{ job_application.user.applicant.name }}</h5>
+                        <p class="text-sm">{{ job_application.user.applicant.title }}</p>
                     </div>
                 </div>
             </div>
             <div class="p-4">
                 <h6 class="text-gray-700 font-semibold">Skills</h6>
                 <div class="flex flex-wrap">
-                    {% for skillset in applicant.skillset_set.all %}
+                    {% for skillset in job_application.user.applicant.skillset_set.all %}
                     <span class="text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded bg-blue-200 text-blue-800">
                         {{ skillset.get_skill_display }}
                     </span>
@@ -28,11 +28,12 @@
                 </div>
             </div>
             <div class="px-4 py-2 bg-gray-50 text-sm">
-                <p>Email: <span class="text-gray-600">{{ applicant.email }}</span></p>
-                <p>Contact No: <span class="text-gray-600">{{ applicant.phone_number }}</span></p>
+                <p>Email: <span class="text-gray-600">{{ Job_application.user.applicant.email }}</span></p>
+                <p>Contact No: <span class="text-gray-600">{{ job_application.user.applicant.phone_number }}</span></p>
+                <p class="text-xs font-semibold text-gray-400">Applied: {{ job_Application.timestamp|date:"M d, Y" }}</p>
             </div>
             <div class="px-4 py-3 bg-gray-100 text-right">
-                <a href="{% url 'detail' applicant.id %}" class="text-blue-500 hover:text-blue-600 font-semibold text-sm">View Profile</a>
+                <a href="{% url 'detail' job_application.user.applicant.id %}" class="text-blue-500 hover:text-blue-600 font-semibold text-sm">View Profile</a>
             </div>
         </div>
         {% endfor %}

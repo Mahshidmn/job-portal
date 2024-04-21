@@ -21,15 +21,15 @@
             <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                 <ul class="py-2" aria-labelledby="dropdownButton">
                     <li>
-                        <a href="{% url 'applicants_update' applicant.id %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                        <a href="{% url 'applicant_update' applicant.id %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
                     </li>
                     <li>
-                        <a href="{% url 'applicants_delete' applicant.id %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                        <a href="{% url 'applicant_delete' applicant.id %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="flex flex-col items-center pb-10">
+        <div class="flex flex-col items-center px-4 pb-10">
             {% for photo in applicant.photo_set.all %}
                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ photo.url }}" alt="{{ applicant.name }} image"/>       
             {% empty %}
@@ -73,9 +73,9 @@
                 </div>             
         </div>
         <div class="container columns-1 gap-1 flex flex-col mb-20">
-            <div class="w-full md:max-w-xl bg-white border border-gray-200 rounded-lg shadow flex mb-3 p-6">
-                <div class="flex-grow pr-4">
-                    <h5 class="ml-4 mb-2 font-medium text-gray-900">Applicant Info</h5> <!-- Reduced bottom margin -->
+            <div class="w-full bg-white border border-gray-200 rounded-lg shadow flex mb-3 p-4">
+                <div class="flex-grow">
+                    <h5 class="ml-4 mb-2 font-medium text-gray-900">Applicant Info</h5> 
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500">
                         <tbody class="bg-white">
@@ -187,7 +187,7 @@
                                         </div>
                                         <!-- Modal body -->
                                         <div class=" mb-8">
-                                            <form class="p-4 md:p-5" action="{% url 'add_education' applicant.id %}" method="post">
+                                            <form class="p-4 md:p-5" action="{% url 'add_workexperience' applicant.id %}" method="post">
                                                 {% csrf_token %}
                                                 <div class="mt-2 education">
                                                     {{ workexperience_form.as_p }}

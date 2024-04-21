@@ -1,5 +1,6 @@
-# from django import forms
 from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from .models import SkillSet, WorkExperience, Education, Certification
 
 class SkillSetForm(ModelForm):
@@ -26,3 +27,9 @@ class CertificationForm(ModelForm):
     class Meta:
         model = Certification
         fields = ['name', 'issuing_organization', 'date_awarded']
+
+
+class RegisterUserForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'password1', 'password2']

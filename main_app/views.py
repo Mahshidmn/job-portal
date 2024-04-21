@@ -5,10 +5,12 @@ import boto3
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Applicant, Photo, Resume
+from .models import Applicant, Recruiter, Photo, Resume, Job, JobApplication
 
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+# from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterUserForm
+from django.contrib import messages
 
 from .forms import SkillSetForm, WorkExperienceForm, EducationForm, CertificationForm
 
@@ -21,8 +23,11 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-class ApplicantList(ListView):
-    model = Applicant
+def applicants_index(request):
+    applicants = Applicant.objects.all()
+    return render(request,'main_app/applicant_list.html', {
+       'applicants': applicants,
+    })
 
 
 def applicants_detail(request, applicant_id):
@@ -54,7 +59,7 @@ class ApplicantUpdate(UpdateView):
    model = Applicant
    fields = ['name', 'title', 'email', 'phone_number', 'location', 'summary', 'linkedin_profile_url', 'portfolio_url', 'availability']
 
-   
+
 class ApplicantDelete(DeleteView):
    model = Applicant
    success_url = '/applicants/'
@@ -74,10 +79,13 @@ def add_skillset(request, applicant_id):
 
 def add_workexperience(request, applicant_id):
    workexperience_form = WorkExperienceForm(request.POST)
+   print('add work experience')
    if workexperience_form.is_valid():
       new_workexperience = workexperience_form.save(commit=False)
       new_workexperience.applicant_id = applicant_id
       new_workexperience.save()
+   else:
+      print(workexperience_form.errors)
    return redirect('detail', applicant_id=applicant_id)
       
 
@@ -149,21 +157,195 @@ def add_resume(request, applicant_id):
          print(e)
    return redirect('detail', applicant_id=applicant_id)
 
+########## Job CRUD ################
 
-def signup(request):
+class JobList(ListView):
+   model = Job
+
+def jobs_detail(request, pk):
+    if JobApplication.objects.filter(user=request.user, job=pk).exists():
+       has_applied = True
+    else: 
+       has_applied = False
+    job = Job.objects.get(pk=pk)
+    context = {'job': job, 'has_applied': has_applied}
+    return render(request, 'main_app/jobs_detail.html', context)
+
+
+class JobCreate(CreateView):
+   model = Job
+   fields = '__all__'
+
+class JobUpdate(UpdateView):
+   model = Job
+   fields = '__all__'
+   success_url = '/accounts/recruiter_dashboard/'
+
+class JobDelete(DeleteView):
+   model = Job
+   success_url = '/recruiter_dashboard/'  #TODO: dont hardcode ---use Reverse
+
+
+########## Job Application CRUD ################
+# Create a job application
+def apply_to_job(request, pk):
+   if request.user.is_authenticated and request.user.is_applicant:
+        job = Job.objects.get(pk=pk)
+        # if the applicant try to apply to the same job again by entering jobs/<int:pk>/apply-to-job/'
+        # the request should be blocked
+        if JobApplication.objects.filter(user=request.user, job=pk).exists():
+            messages.warning(request, 'Permission Denied')
+            return redirect('applicant_dashboard')
+        else:
+            JobApplication.objects.create(
+                job=job,
+                user = request.user,
+                status = 'Submitted'
+            )
+            messages.info(request, 'You have successfully applied! Please see applicant dashboard.')
+            return redirect('applied_jobs')
+   else:
+      messages.info(request, 'Please log in to continue')
+      return redirect('login')
+   
+# Get all the Job Applicants
+def all_job_applicants(request, pk):
+   job = Job.objects.get(pk=pk)
+   job_applications = job.jobapplication_set.all()
+   print(job_applications)
+   context = {'job': job, 'job_applications': job_applications}
+   return render(request, 'main_app/all_job_applicants.html', context)
+
+
+def applied_jobs(request):
+   job_applications = JobApplication.objects.filter(user=request.user)
+   print(job_applications)
+   return render(request, 'dashboard/applicant_dashboard.html', {
+      'job_applications': job_applications,
+   })
+
+
+###### authentication and Registeration CRUD ########
+
+# register applicant only
+def register_applicant(request):
    error_message = ''
    if request.method == 'POST':
-      form = UserCreationForm(request.POST)
+      form = RegisterUserForm(request.POST)
       if form.is_valid():
          # save the user in DB
-         user = form.save()
+         user = form.save(commit=False)
+         user.is_applicant = True
+         user.save()
+
+         applicant = Applicant(
+                name=request.POST.get('name'),
+                title=request.POST.get('title'),
+                email=request.POST.get('email'),
+                phone_number=request.POST.get('phone_number'),
+                location=request.POST.get('location'),
+                summary=request.POST.get('summary'),
+                linkedin_profile_url=request.POST.get('linkedin_profile_url'),
+                portfolio_url=request.POST.get('portfolio_url'),
+                availability=request.POST.get('availability')
+            )
+         applicant.user = user
+         applicant.save()
          # Authomatically log in the new user
          login(request, user)
-         return redirect('index') # redirect send a GET request
+         return redirect('applicant_dashboard') # redirect send a GET request
       else:
          error_message = 'Invalid sign up - try again'
+         print(form.errors)
+         return redirect('register_applicant')
     #  # A bad POST or a GET request, so render signup.html with an empty form
-   form = UserCreationForm()
+   form = RegisterUserForm()
    context = {'form': form, 'error_message': error_message}
-   return render(request, 'registration/signup.html', context)
-()
+   return render(request, 'registration/register_applicant.html', context)
+
+
+
+# register recruiter only
+def register_recruiter(request):
+   error_message = ''
+   if request.method == 'POST':
+      form = RegisterUserForm(request.POST)
+      if form.is_valid():
+         # save the user in DB
+         user = form.save(commit=False)
+         user.is_recruiter = True
+         user.save()
+
+         recruiter = Recruiter(
+                name=request.POST.get('name'),
+                title=request.POST.get('title'),
+                email=request.POST.get('email'),
+                phone_number=request.POST.get('phone_number'),
+                company=request.POST.get('company')
+         )
+         recruiter.user = user
+         recruiter.save()
+         # Authomatically log in the new user
+         login(request, user)
+         return redirect('recruiter_dashboard') # redirect send a GET request
+      else:
+         error_message = 'Invalid sign up - try again'
+         print(form.errors)
+         return redirect('register_recruiter')
+    #  # A bad POST or a GET request, so render signup.html with an empty form
+   form = RegisterUserForm()
+   context = {'form': form, 'error_message': error_message}
+   return render(request, 'registration/register_recruiter.html', context)
+
+
+# Login a user
+def login_user(request):
+   if request.method == 'POST':
+      username = request.POST.get('username')
+      password = request.POST.get('password')
+
+      user = authenticate(request, username=username, password=password)
+      if user is not None and user.is_active:
+         login(request, user)
+         if request.user.is_applicant:
+            return redirect('applicant_dashboard')
+         elif request.user.is_recruiter:
+            return redirect('recruiter_dashboard')
+         else:
+            return redirect('login')
+      else:
+         messages.warning(request, 'Something went wrong')
+         return redirect('login')
+   else: 
+      return render(request, 'registration/login.html')
+   
+# Logout a user
+def logout_user(request):
+   logout(request)
+   messages.info(request, 'Your session has ended.')
+   return redirect('login')
+
+
+
+def proxy(request):
+   if request.user.is_applicant:
+      return redirect('applicant_dashboard')
+   elif request.user.is_recruiter:
+    return redirect('recruiter_dashboard')
+   else:
+      return redirect('login')
+
+
+def applicant_dashboard(request):
+   return render(request, 'dashboard/applicant_dashboard.html')
+
+
+def recruiter_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  
+    try:
+        recruiter = request.user.recruiter  # Assume a OneToOne link from User to Recruiter
+        jobs = Job.objects.filter(recruiter=recruiter)
+        return render(request, 'dashboard/recruiter_dashboard.html', {'jobs': jobs})
+    except AttributeError:
+        return redirect('applicant_dashboard')  # Redirect to a different dashboard if not a recruiter
