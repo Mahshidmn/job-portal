@@ -23,7 +23,7 @@ JOB_TYPES = (
     ('R', 'Remote'),
 )
 
-EPLOYEMENT_MODES = (
+EPLOYMENT_MODES = (
     ('F', 'Full Time'),
     ('P', 'Part Time'),
     ('C', 'Contract'),
@@ -142,10 +142,10 @@ class Job(models.Model):
         choices = JOB_TYPES,
         default = JOB_TYPES[0][0]   
     )
-    employement_mode = models.CharField(
+    employment_mode = models.CharField(
         max_length=1,
-        choices = EPLOYEMENT_MODES,
-        default = EPLOYEMENT_MODES[0][0]   
+        choices = EPLOYMENT_MODES,
+        default = EPLOYMENT_MODES[0][0]   
     )
     about_company = models.TextField()
     job_requirements = models.TextField()

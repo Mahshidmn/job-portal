@@ -2,36 +2,38 @@
 
 {% block content %}
 <div class="container mb-12 mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">All Applicants</h1>
-
     {% if applicants %}
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-3 gap-6 ml-16">
         {% for applicant in applicants %}
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="bg-gray-300 p-4 flex items-center justify-between">
-                <div class="flex items-center">
-                    <img class="h-12 w-12 rounded-full object-cover mr-4" src="{{ applicant.applicant.photo.url|default:'url_to_default_image.jpg' }}" alt="Profile of {{ applicant.applicant.name }}">
+        <div class="flex flex-col bg-white rounded-lg shadow overflow-hidden h-full">
+            <div>
+                <div class="bg-gray-300 p-4 flex items-center">
+                    {% for photo in applicant.photo_set.all %}
+                    <img class="h-12 w-12 rounded-full object-cover mr-4" src="{{ photo.url|default:'url_to_default_image.jpg' }}" alt="Profile Photo of {{ applicant.name }}">
+                    {% empty %}
+                    
+                    {% endfor %}
                     <div>
                         <h5 class="font-bold">{{ applicant.name }}</h5>
                         <p class="text-sm">{{ applicant.title }}</p>
                     </div>
                 </div>
-            </div>
-            <div class="p-4">
-                <h6 class="text-gray-700 font-semibold">Skills</h6>
-                <div class="flex flex-wrap">
-                    {% for skillset in applicant.skillset_set.all %}
-                    <span class="text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded bg-blue-200 text-blue-800">
-                        {{ skillset.get_skill_display }}
-                    </span>
-                    {% endfor %}
+                <div class="p-4">
+                    <h6 class="text-gray-700 font-semibold">Skills</h6>
+                    <div class="flex flex-wrap mt-4">
+                        {% for skillset in applicant.skillset_set.all %}
+                        <span class="text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded bg-blue-200 text-blue-800">
+                            {{ skillset.get_skill_display }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="px-4 py-2 bg-gray-50 text-sm">
+                    <p>Email: <span class="text-gray-600">{{ applicant.email }}</span></p>
+                    <p>Contact No: <span class="text-gray-600">{{ applicant.phone_number }}</span></p>
                 </div>
             </div>
-            <div class="px-4 py-2 bg-gray-50 text-sm">
-                <p>Email: <span class="text-gray-600">{{ applicant.email }}</span></p>
-                <p>Contact No: <span class="text-gray-600">{{ applicant.phone_number }}</span></p>
-            </div>
-            <div class="px-4 py-3 bg-gray-100 text-right">
+            <div class="mt-auto px-4 py-4 bg-gray-100 text-right">
                 <a href="{% url 'detail' applicant.id %}" class="text-blue-500 hover:text-blue-600 font-semibold text-sm">View Profile</a>
             </div>
         </div>

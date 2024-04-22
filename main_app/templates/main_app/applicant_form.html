@@ -5,13 +5,13 @@
 {% block content %}
 <div class="container mx-auto px-4">
     {% if object %}
-        <h1 class="text-left my-4 text-black bg-white py-2 font-bold">Edit {{ object.name }} Profile </h1>
+        <h1 class="text-left my-4 text-black py-2 font-bold">Edit {{ object.name }} Profile </h1>
     {% else %}
-        <h1 class="text-left my-4 mb-2 text-black bg-white py-2 font-bold">Create Profile</h1>  
+        <h1 class="text-left my-4 mb-2 text-black py-2 font-bold">Create Profile</h1>  
     {% endif %} 
     
     <!-- Form with POST method and CSRF token for security -->
-    <form method="POST" class="bg-white shadow-md rounded pb-8 my-8">
+    <form method="POST" class="text-left rounded pb-8 my-8">
         {% csrf_token %}
         <table class="w-full max-w-lg mx-auto">
             {% for field in form %}

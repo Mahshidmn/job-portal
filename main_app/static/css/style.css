@@ -34,4 +34,20 @@ body {
     top: 80%;
     transform: translate(-50%, -50%); /* Center the modal *
     max-width: 600px; /* Maximum modal width */
-  }
+}
+
+.round-corners {
+    border-top-left-radius: 0; /* Adjust the radius as needed */
+    border-bottom-right-radius: 1rem; /* Adjust the radius as needed */
+}
+
+.custom-image-position {
+    position: absolute;
+    left: 600px;
+    top: -100px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* assuming round-corners class implies a border-radius */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* example shadow */
+    transform: scaleX(-1);
+}

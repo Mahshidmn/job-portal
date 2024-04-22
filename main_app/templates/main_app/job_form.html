@@ -3,41 +3,33 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container mx-auto px-4">
-    {% if object %}
-        <h1 class="text-left my-4 text-black bg-white py-2 font-bold">Edit Job Listing </h1>
-    {% else %}
-        <h1 class="text-left my-4 mb-2 text-black bg-white py-2 font-bold">Create Job Listing</h1>  
-    {% endif %} 
-    
-    
-    <form method="POST" class="bg-white shadow-md rounded pb-8 my-8">
-        {% csrf_token %}
-        <table class="w-full max-w-lg mx-auto">
-            {% for field in form %}
-            <tr class="mb-4">
-                <td class="align-top">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+<div class="container ml-12 px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
+        {% if object %}
+            <h1 class="text-xl font-bold text-center text-gray-800">Edit {{ object.name }} Profile</h1>
+        {% else %}
+            <h1 class="text-xl font-bold text-center text-gray-800">Create Profile</h1>
+        {% endif %}
+
+        <form method="POST" class="mt-8">
+            {% csrf_token %}
+            <div class="space-y-6">
+                {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
                         {{ field.label }}
                     </label>
-                </td>
-                <td>
-                    {{ field|add_class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-blue-500 focus:shadow-outline" }}
+                    {{ field|add_class:"mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" }}
                     {% if field.help_text %}
-                        <p class="text-xs italic text-gray-600">{{ field.help_text }}</p>
+                        <p class="mt-2 text-xs text-gray-500">{{ field.help_text }}</p>
                     {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <div class="ml-8 mt-4 flex items-center justify-center">
-            {% if not object %}
-            <input type="submit" value="Create Job Listing" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            {% else %}
-            <input type="submit" value="Update Job Listing" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            {% endif %}
-        </div>
-    </form>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="mt-8 flex justify-center">
+                <input type="submit" value="{% if not object %}Create Profile{% else %}Update Profile{% endif %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
-

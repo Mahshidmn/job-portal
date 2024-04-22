@@ -16,7 +16,7 @@ urlpatterns = [
     path('applicants/create/', views.ApplicantCreate.as_view(), name='applicants_create'),
     path('applicants/<int:pk>/update/', views.ApplicantUpdate.as_view(), name='applicant_update'),
     path('applicants/<int:pk>/delete/', views.ApplicantDelete.as_view(), name='applicant_delete'),
-   
+    path('applicants/applied_jobs/', views.applied_jobs, name='applied_jobs'),
     # path('accounts/signup/', views.signup, name='signup'),
     path('accounts/register_applicant/', views.register_applicant, name='register_applicant'),
     path('accounts/register_recruiter/', views.register_recruiter, name='register_recruiter'),
@@ -34,6 +34,6 @@ urlpatterns = [
     path('jobs/<int:pk>/delete/', views.JobDelete.as_view(), name='jobs_delete'),
     path('jobs/<int:pk>/apply_to_job/', views.apply_to_job, name='apply_to_job'),
     path('jobs/<int:pk>/all_job_applicants/', views.all_job_applicants, name='all_job_applicants'),
-    path('applied_jobs/', views.applied_jobs, name='applied_jobs'),
+    
 
  ]

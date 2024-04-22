@@ -3,9 +3,10 @@ import uuid
 import boto3
 
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Applicant, Recruiter, Photo, Resume, Job, JobApplication
+from django.urls import reverse
 
 from django.contrib.auth import login, logout, authenticate
 # from django.contrib.auth.forms import UserCreationForm
@@ -175,6 +176,9 @@ def jobs_detail(request, pk):
 class JobCreate(CreateView):
    model = Job
    fields = '__all__'
+   
+   def get_success_url(self):
+        return reverse('recruiter_dashboard')
 
 class JobUpdate(UpdateView):
    model = Job
@@ -203,7 +207,7 @@ def apply_to_job(request, pk):
                 status = 'Submitted'
             )
             messages.info(request, 'You have successfully applied! Please see applicant dashboard.')
-            return redirect('applied_jobs')
+            return redirect('applicant_dashboard')
    else:
       messages.info(request, 'Please log in to continue')
       return redirect('login')
@@ -334,18 +338,24 @@ def proxy(request):
     return redirect('recruiter_dashboard')
    else:
       return redirect('login')
-
-
+   
+   
+      
 def applicant_dashboard(request):
-   return render(request, 'dashboard/applicant_dashboard.html')
-
+    if not request.user.is_authenticated:
+        return redirect('login')  
+    if request.user.is_applicant:  # Use the is_applicant boolean field to check user role
+        job_applications = JobApplication.objects.filter(user=request.user)
+        return render(request, 'dashboard/applicant_dashboard.html', {'job_applications': job_applications})
+    else:
+        return redirect('recruiter_dashboard')
 
 def recruiter_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')  
-    try:
-        recruiter = request.user.recruiter  # Assume a OneToOne link from User to Recruiter
-        jobs = Job.objects.filter(recruiter=recruiter)
+    if request.user.is_recruiter:  # Use the is_recruiter boolean field to check user role
+        jobs = Job.objects.filter(recruiter=request.user.recruiter)
         return render(request, 'dashboard/recruiter_dashboard.html', {'jobs': jobs})
-    except AttributeError:
-        return redirect('applicant_dashboard')  # Redirect to a different dashboard if not a recruiter
+    else:
+        return redirect('applicant_dashboard')
+
