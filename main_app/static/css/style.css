@@ -18,11 +18,26 @@ body {
     margin: 0;
 }
 
-.centered-modal {
-    transform: translate(-50%, -50%);
+.work-centered-modal {
+    transform: translate(35%, 20%);
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 70%;
+    left: 70%;
+}
+
+
+.edu-centered-modal {
+    transform: translate(35%, 15%);
+    position: fixed;
+    top: 70%;
+    left: 70%;
+}
+
+.cert-centered-modal {
+    transform: translate(35%, 25%);
+    position: fixed;
+    top: 70%;
+    left: 70%;
 }
 
 
