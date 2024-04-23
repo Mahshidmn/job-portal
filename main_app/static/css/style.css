@@ -18,23 +18,13 @@ body {
     margin: 0;
 }
 
-.work-experience input .education input{
-    border: 2px solid gray; 
-    transition: border-color 0.3s;  
-}
-
-.work-experience input:hover .education input:hover {
-    border-color: blue;  
-}
-
-#certificationModal {
-    display: none; /* Start hidden */
+.centered-modal {
+    transform: translate(-50%, -50%);
     position: fixed;
-    left: 80%;
-    top: 80%;
-    transform: translate(-50%, -50%); /* Center the modal *
-    max-width: 600px; /* Maximum modal width */
+    top: 50%;
+    left: 50%;
 }
+
 
 .round-corners {
     border-top-left-radius: 0; /* Adjust the radius as needed */
@@ -50,4 +40,8 @@ body {
     border-radius: 8px; /* assuming round-corners class implies a border-radius */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* example shadow */
     transform: scaleX(-1);
+}
+
+.applicant-info {
+    width: 900px;
 }

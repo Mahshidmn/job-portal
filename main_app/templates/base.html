@@ -34,28 +34,43 @@
               <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Home</a>
             </li>
            
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.is_applicant %}
             <li>
               <a href="{% url 'applicant_dashboard' %}" class="{% if request.resolver_match.url_name == 'applicant_dashboard' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Applicant Dashboard</a>
             </li>
-            <li>
-              <a href="{% url 'recruiter_dashboard' %}" class="{% if request.resolver_match.url_name ==  'recruiter_dashboard' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Recruiter Dashboard</a>
-            </li>
+            
             <li>
                 <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Applicants</a>
             </li>
             <li>
             <li>
-                <a href="{% url 'jobs_index' %}" class="{% if request.resolver_match.url_name == 'jobs_index' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Jobs</a>
-            </li>
-                <a href="{% url 'jobs_create' %}" class="{% if request.resolver_match.url_name == 'jobs_create' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Create Job Listing</a>
-              </li>
+                <a href="{% url 'jobs_index' %}" class="{% if request.resolver_match.url_name == 'jobs_index' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Listed Jobs</a>
             <li>
               <form method="post" action="{% url 'logout' %}">
                   {% csrf_token %}
                   <button type="submit" class="{% if request.resolver_match.url_name == 'logout' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Logout</button>
               </form>
             </li>
+            {% elif user.is_authenticated and user.is_recruiter %}
+            
+            <li>
+              <a href="{% url 'recruiter_dashboard' %}" class="{% if request.resolver_match.url_name ==  'recruiter_dashboard' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Recruiter Dashboard</a>
+            </li>
+            <li>
+              <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Applicants</a>
+            </li>
+            <li>
+              <a href="{% url 'jobs_index' %}" class="{% if request.resolver_match.url_name == 'jobs_index' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Listed Jobs</a>
+            </li>
+              <a href="{% url 'jobs_create' %}" class="{% if request.resolver_match.url_name == 'jobs_create' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Create Job Listing</a>
+            </li>
+            <li>
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                  <button type="submit" class="{% if request.resolver_match.url_name == 'logout' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Logout</button>
+              </form>
+            </li>
+          
             {% else %}
             <li>
               <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Log In</a>
