@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="flex justify-center">
-                <div class="mr-8 text-center">
+                <div class="mr-4 text-center">
                     {% for photo in applicant.photo_set.all %}
                        <img class="w-24 h-24 mb-3 rounded-full border-double border-4  border-blue-500 shadow-lg" src="{{ photo.url }}" alt="{{ applicant.name }} image"/>       
                     {% empty %}
@@ -153,9 +153,9 @@
                             </tbody>
                         </table> 
                         <div class="flex justify-between items-center pl-2">
-                            <form action="{% url 'add_resume' applicant.id %}" enctype="multipart/form-data" method="POST" class="flex items-center max-w-sm pr-20 space-x-4">
+                            <form action="{% url 'add_resume' applicant.id %}" enctype="multipart/form-data" method="POST" class="flex items-center max-w-md pr-20 space-x-4">
                                 {% csrf_token %}
-                                <input type="file" name="resume-file" class="cursor-pointer text-center text-sm text-gray-500 my-4 p-2 rounded-lg border border-gray-300 w-full :border-blue-500 focus:outline-none">
+                                <input type="file" name="resume-file" class="cursor-pointer text-center text-sm text-gray-500 my-4  p-2 rounded-lg border border-gray-300 w-full :border-blue-500 focus:outline-none">
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white text-xs shadow-lg py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out whitespace-nowrap">
                                     Upload Resume
                                 </button>

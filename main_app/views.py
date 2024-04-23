@@ -8,6 +8,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Applicant, Recruiter, Photo, Resume, Job, JobApplication
 from django.urls import reverse
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.contrib.auth import login, logout, authenticate
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm
@@ -24,6 +27,8 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+
+@login_required
 def applicants_index(request):
     applicants = Applicant.objects.all()
     return render(request,'main_app/applicant_list.html', {
@@ -31,6 +36,7 @@ def applicants_index(request):
     })
 
 
+@login_required
 def applicants_detail(request, applicant_id):
    applicant = Applicant.objects.get(id=applicant_id)
    skillset_form = SkillSetForm()
@@ -45,7 +51,7 @@ def applicants_detail(request, applicant_id):
       'certification_form': certification_form,
    })
 
-class ApplicantCreate(CreateView):
+class ApplicantCreate(LoginRequiredMixin, CreateView):
     model = Applicant
     fields = ['name', 'title', 'email', 'phone_number', 'location', 'summary', 'linkedin_profile_url', 'portfolio_url', 'availability']
     
@@ -56,17 +62,17 @@ class ApplicantCreate(CreateView):
       #do its regular work which is saving the model in DB & redirect
         return super().form_valid(form)
     
-class ApplicantUpdate(UpdateView):
+class ApplicantUpdate(LoginRequiredMixin, UpdateView):
    model = Applicant
    fields = ['name', 'title', 'email', 'phone_number', 'location', 'summary', 'linkedin_profile_url', 'portfolio_url', 'availability']
 
 
-class ApplicantDelete(DeleteView):
+class ApplicantDelete(LoginRequiredMixin, DeleteView):
    model = Applicant
    success_url = '/applicants/'
     
 ######## Skillset CRUD ###########
-
+@login_required
 def add_skillset(request, applicant_id):
    skillset_form = SkillSetForm(request.POST) # request.POST is equivalent for req.body
    if skillset_form.is_valid():
@@ -91,7 +97,7 @@ def add_workexperience(request, applicant_id):
       
 
 ########## Education CRUD ##############
-
+@login_required
 def add_education(request, applicant_id):
    education_form = EducationForm(request.POST)
    if education_form.is_valid():
@@ -102,7 +108,7 @@ def add_education(request, applicant_id):
 
 
 ########## Certification CRUD ##############
-
+@login_required
 def add_certification(request, applicant_id):
    certification_form = CertificationForm(request.POST)
    if certification_form.is_valid():
@@ -113,7 +119,7 @@ def add_certification(request, applicant_id):
 
     
 ######## Photo CRUD ###########
-
+@login_required
 def add_photo(request, applicant_id):
    photo_file = request.FILES.get('photo-file', None)
    if photo_file:
@@ -136,6 +142,7 @@ def add_photo(request, applicant_id):
    return redirect('detail', applicant_id=applicant_id)
 
 ######## Resume CRUD ###########
+@login_required
 def add_resume(request, applicant_id):
    resume_file = request.FILES.get('resume-file', None)
    if resume_file:
@@ -160,9 +167,10 @@ def add_resume(request, applicant_id):
 
 ########## Job CRUD ################
 
-class JobList(ListView):
+class JobList(LoginRequiredMixin, ListView):
    model = Job
 
+@login_required
 def jobs_detail(request, pk):
     if JobApplication.objects.filter(user=request.user, job=pk).exists():
        has_applied = True
@@ -173,25 +181,26 @@ def jobs_detail(request, pk):
     return render(request, 'main_app/jobs_detail.html', context)
 
 
-class JobCreate(CreateView):
+class JobCreate(LoginRequiredMixin, CreateView):
    model = Job
    fields = '__all__'
    
    def get_success_url(self):
         return reverse('recruiter_dashboard')
 
-class JobUpdate(UpdateView):
+class JobUpdate(LoginRequiredMixin, UpdateView):
    model = Job
    fields = '__all__'
    success_url = '/accounts/recruiter_dashboard/'
 
-class JobDelete(DeleteView):
+class JobDelete(LoginRequiredMixin, DeleteView):
    model = Job
    success_url = '/recruiter_dashboard/'  #TODO: dont hardcode ---use Reverse
 
 
 ########## Job Application CRUD ################
 # Create a job application
+@login_required
 def apply_to_job(request, pk):
    if request.user.is_authenticated and request.user.is_applicant:
         job = Job.objects.get(pk=pk)
@@ -213,6 +222,7 @@ def apply_to_job(request, pk):
       return redirect('login')
    
 # Get all the Job Applicants
+@login_required
 def all_job_applicants(request, pk):
    job = Job.objects.get(pk=pk)
    job_applications = job.jobapplication_set.all()
@@ -221,6 +231,7 @@ def all_job_applicants(request, pk):
    return render(request, 'main_app/all_job_applicants.html', context)
 
 
+@login_required
 def applied_jobs(request):
    job_applications = JobApplication.objects.filter(user=request.user)
    print(job_applications)
@@ -330,7 +341,7 @@ def logout_user(request):
    return redirect('login')
 
 
-
+@login_required  
 def proxy(request):
    if request.user.is_applicant:
       return redirect('applicant_dashboard')
@@ -339,8 +350,8 @@ def proxy(request):
    else:
       return redirect('login')
    
-   
-      
+
+@login_required     
 def applicant_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')  
@@ -349,7 +360,7 @@ def applicant_dashboard(request):
         return render(request, 'dashboard/applicant_dashboard.html', {'job_applications': job_applications})
     else:
         return redirect('recruiter_dashboard')
-
+@login_required
 def recruiter_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')  
