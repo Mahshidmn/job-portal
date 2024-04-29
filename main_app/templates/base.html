@@ -85,20 +85,15 @@
     </nav>
       
   </header>  
-
-  <main class="container mt-14 max-w-full">
-    <!-- {% if messages %}
-    <ul class="messages pb-8 ">
+  {% if messages %}
+<ul class="messages pt-12">
     {% for message in messages %}
-      <li class="{% if message.tags %}{{ message.tags }}{% endif %} rounded-lg" {% if message.tags %} class="flex justify-center { message.tags }}-100 text-{{ message.tags }}-800" {% endif %}>
-          {{ message }}
-      </li>
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
-     </ul>
-    {% endif %} -->
-   
+</ul>
+{% endif %}
+  <main class="container mt-14 max-w-full">
     {% block content %}
-
     {% endblock %}
   </main>
   <footer class="fixed bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow flex items-center justify-center dark:bg-blue-950 dark:border-gray-600">
