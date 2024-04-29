@@ -2,7 +2,10 @@ import os
 import uuid
 import boto3
 
-from django.shortcuts import render, redirect
+
+from django.core.exceptions import ObjectDoesNotExist
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Applicant, Recruiter, Photo, Resume, Job, JobApplication
@@ -229,6 +232,44 @@ def all_job_applicants(request, pk):
    print(job_applications)
    context = {'job': job, 'job_applications': job_applications}
    return render(request, 'main_app/all_job_applicants.html', context)
+
+
+# def all_job_applicants(request, pk):
+#     job = get_object_or_404(Job, pk=pk)
+#     job_applications = job.jobapplication_set.all()
+#     applications = job.jobapplication_set.all().select_related('user', 'user__applicant')  # Fetch related data efficiently
+    
+#     # Prepare the data, ensuring that we handle cases where a user might not have an applicant profile
+#     applicants_data = []
+#     for application in applications:
+#         try:
+#             applicant_info = {
+#                 'name': application.user.applicant.name,
+#                 'title': application.user.applicant.title,
+#                 'email': application.user.applicant.email,
+#                 'phone_number': application.user.applicant.phone_number,
+#                 'status': application.status,
+#                 'applied_on': application.timestamp
+#             }
+#         except ObjectDoesNotExist:
+#             # In case the user has no applicant profile
+#             applicant_info = {
+#                 'name': 'N/A',
+#                 'title': 'N/A',
+#                 'email': 'N/A',
+#                 'phone_number': 'N/A',
+#                 'status': application.status,
+#                 'applied_on': application.timestamp
+#             }
+#         applicants_data.append(applicant_info)
+
+#     context = {
+#         'job': job,
+#         'applicants_data': applicants_data,
+#         'job_applications': job_applications,
+#     }
+#     return render(request, 'main_app/all_job_applicants.html', context)
+
 
 
 @login_required
