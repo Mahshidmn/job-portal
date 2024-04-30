@@ -37,28 +37,27 @@ Recruiters using JobPortal are equipped with tools to effectively find and evalu
 To view the website, click this link: [JobFrontier](https://https://jobportal-k129.onrender.com/)
 
 ## ScreenShots
+![Home Page](https://i.imgur.com/MwOQQGE.png)
+![Profile Page](https://i.imgur.com/FV9vuzO.png)
+![Applicant Dashboard](https://i.imgur.com/7GZTMt8.png)
+![Recruiter Dashboard](https://i.imgur.com/Hcffscu.png)
 
-<p align="center" width="100%">
-    <img src="static/images/screenshot-1.jpeg" height="400" width="400px" alt="Website example image 1"/>
-    <img src="static/images/screenshot-4.jpeg" height="400" width="400px" alt="Website example image 4"/>
-</p>
-<p align="center" width="100%">
-    <img src="static/images/screenshot-2.jpeg" height="400" width="400px" alt="Website example image 2"/>
-    <img src="static/images/screenshot-3.jpeg"  height="400" width="400px" alt="Website example image 3"/>
-</p>
 
 
 ## Getting Started with Predefined User Accounts
 To facilitate easy testing and exploration of the Job Portal's features, we have set up two predefined user accounts. Visitors can use these accounts to log in and experience the platform from the perspectives of both an applicant and a recruiter.
 
-### User Credentials
-Applicant: Tara Thompson
-Username: Tara
-Password: Sei123456
+### User Credentials:
+**Applicant:** Tara Thompson  
+**Username:** Tara  
+**Password:** Sei123456
+**Applicant:** Tara Thompson  
 
-Recruiter: Deborah Wood
-Username Deboprah
-Password: Sei123456
+**Recruiter:** Deborah Wood  
+**Username:** Deborah  
+**Password:** Sei123456
+
+
 
 ### Explore Features:
 As Applicant, you can:
