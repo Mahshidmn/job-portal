@@ -241,6 +241,8 @@ def applied_jobs(request):
 
 
 ###### authentication and Registeration CRUD ########
+def signup(request):
+   return render(request, 'registration/signup.html' )
 
 # register applicant only
 def register_applicant(request):

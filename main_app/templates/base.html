@@ -76,7 +76,7 @@
               <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}text-blue-700{% else %}text-white{% endif %} py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:hover:text-white">Log In</a>
             </li>
             <li>
-              <button type="button" class="mr-20 mt-[-10px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center md:bg-blue-600 md:hover:bg-blue-700 md:focus:ring-blue-800">Sign Up</button>
+              <a href="{% url 'signup' %}" class="mr-20 mt-[-10px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center md:bg-blue-600 md:hover:bg-blue-700 md:focus:ring-blue-800">Sign Up</a>
             </li>
             {% endif %}
           </ul>
