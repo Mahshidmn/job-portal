@@ -39,7 +39,7 @@ To view the website, click this link: [JobFrontier](https://https://jobportal-k1
 ## ScreenShots
 ![Home Page](https://i.imgur.com/MwOQQGE.png)
 ![Profile Page](https://i.imgur.com/FV9vuzO.png)
-![Applicant Dashboard](https://i.imgur.com/7GZTMt8.png)
+![Applicant Dashboard]([https://i.imgur.com/aye68do.png)
 ![Recruiter Dashboard](https://i.imgur.com/Hcffscu.png)
 
 
