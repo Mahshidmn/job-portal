@@ -153,8 +153,3 @@ LOGOUT_REDIRECT_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'main_app.User'
 
-
-import logging
-
-logger = logging.getLogger(__name__)
-logger.info("Database settings: {}".format(DATABASES['default']))
