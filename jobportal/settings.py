@@ -85,8 +85,9 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import dj_database_url
-import os
+import django_heroku
+# import dj_database_url
+# import os
 
 DATABASES = {
     'default': {
@@ -96,19 +97,12 @@ DATABASES = {
 }
 
 # Configure database for Render platform
-if 'RENDER' in os.environ:
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('RENDER_DATABASE'),
-        conn_max_age=600
-    )
+# if 'RENDER' in os.environ:
+#     DATABASES['default'] = dj_database_url.config(
+#         default=os.environ.get('RENDER_DATABASE'),
+#         conn_max_age=600
+#     )
 
-# Configure database for Heroku platform
-elif 'DATABASE_URL' in os.environ:  # Heroku environment variable for database URL
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True  # Require SSL for Heroku Postgres
-    )
 
 
 # Password validation
@@ -162,3 +156,5 @@ LOGOUT_REDIRECT_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'main_app.User'
 
+
+django_heroku.settings(locals())
