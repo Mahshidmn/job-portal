@@ -95,10 +95,19 @@ DATABASES = {
     }
 }
 
+# Configure database for Render platform
 if 'RENDER' in os.environ:
     DATABASES['default'] = dj_database_url.config(
         default=os.environ.get('RENDER_DATABASE'),
         conn_max_age=600
+    )
+
+# Configure database for Heroku platform
+elif 'DATABASE_URL' in os.environ:  # Heroku environment variable for database URL
+    DATABASES['default'] = dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True  # Require SSL for Heroku Postgres
     )
 
 
