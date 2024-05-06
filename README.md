@@ -32,7 +32,7 @@ Recruiters using JobPortal are equipped with tools to effectively find and evalu
 
 * **Recruiter Dashboard:** Each recruiter has access to their own personal dashboard where they can view a list of all the jobs they have posted.
 
-## Deployment
+## Heroku Deployment
 
 To view the website, click this link: [JobFrontier](rontier-66cc5b968814.herokuapp.com)
 
