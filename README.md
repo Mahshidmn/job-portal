@@ -51,7 +51,7 @@ To facilitate easy testing and exploration of the Job Portal's features, we have
 **Applicant:** Tara Thompson  
 **Username:** Tara  
 **Password:** Sei123456
-**Applicant:** Tara Thompson  
+
 
 **Recruiter:** Deborah Wood  
 **Username:** Deborah  
