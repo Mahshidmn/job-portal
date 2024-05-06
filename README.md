@@ -93,7 +93,7 @@ This setup aims to provide a hands-on experience with our Job Portal, allowing f
 
 ## Version 1.2 Improvements:
 * Search Feature
-* Save interestrd Jobs by applicant
+* Save interesting Jobs by applicant
 * More Authorization, for example: Recruiters do not see apply for job button, and can not upload photo or resume for applicant
 
 ## Version 1.3 Improvements:
