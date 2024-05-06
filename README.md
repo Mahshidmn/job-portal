@@ -34,7 +34,7 @@ Recruiters using JobPortal are equipped with tools to effectively find and evalu
 
 ## Deployment
 
-To view the website, click this link: [JobFrontier](https://https://jobportal-k129.onrender.com/)
+To view the website, click this link: [JobFrontier](rontier-66cc5b968814.herokuapp.com)
 
 ## ScreenShots
 ![Home Page](https://i.imgur.com/MwOQQGE.png)
@@ -46,6 +46,11 @@ To view the website, click this link: [JobFrontier](https://https://jobportal-k1
 
 ## Getting Started with Predefined User Accounts
 To facilitate easy testing and exploration of the Job Portal's features, we have set up two predefined user accounts. Visitors can use these accounts to log in and experience the platform from the perspectives of both an applicant and a recruiter.
+
+### Admin Credentials:
+**Username:** mahshid  
+**Password:** Super123456
+
 
 ### User Credentials:
 **Applicant:** Tara Thompson  
@@ -86,10 +91,13 @@ This setup aims to provide a hands-on experience with our Job Portal, allowing f
 * HTML
 * CSS - Tailwind
 
-## Further Improvement
+## Version 1.2 Improvements:
 * Search Feature
 * Save interestrd Jobs by applicant
-* Interaction and Engagement: Recruiter interaction with applicant. For Ex, Recruiter can accept or reject the application,Both parties can communicate through the platform, allowing for feedback, interview scheduling, and updates.
+* More Authorization, for example: Recruiters do not see apply for job button, and can not upload photo or resume for applicant
+
+## Version 1.3 Improvements:
+* Interaction and Engagement: Recruiter interaction with applicant. For Example, Recruiter can accept or reject the application,Both parties can communicate through the platform, allowing for feedback, interview scheduling, and updates.
 
 
 
