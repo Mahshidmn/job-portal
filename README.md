@@ -34,7 +34,7 @@ Recruiters using JobPortal are equipped with tools to effectively find and evalu
 
 ## Heroku Deployment
 
-To view the website, click this link: [JobFrontier](rontier-66cc5b968814.herokuapp.com)
+To view the website, click this link: [JobFrontier](https://jobfrontier-66cc5b968814.herokuapp.com)
 
 ## ScreenShots
 ![Home Page](https://i.imgur.com/MwOQQGE.png)
